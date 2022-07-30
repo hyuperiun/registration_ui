@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as mainActions from "./../store/module/main";
 import GymList from "./../component/gym/GymList";
+import {Link} from 'react-router-dom';
 
 class MainContainer extends Component {
   initialize = () => {
@@ -20,12 +21,34 @@ class MainContainer extends Component {
     MainActions.changeInput({name, value});
   }
 
+  handleClick = (e) => {
+    const { MainActions } = this.props;
+    MainActions.getGymListByName(e);
+    this.render();
+  }
+
   render() {
-    const { gyms, category } = this.props;
-    debugger;
+    const { gyms, search } = this.props;
     return (
       <div>
-        <GymList gyms={gyms} onChangeInput={this.handleChangeInput} category={category}/>
+        {/* <GymList gyms={gyms} onChangeInput={this.handleChangeInput} category={category}/> */}
+        <input type="text" name="search" onChange={this.handleChangeInput}/>
+        <button onClick={() => this.handleClick(search)}>
+          검색
+        </button>
+          <ul>
+          {gyms.map((gym,index) => (
+            <li style={{
+              border: '1px solid black',
+              padding: '25px',
+              margin: '15px',
+            }} key={index.toString()}>
+              <Link to="/gym" state={{gym : {gym} }}>
+              <GymList gym={gym}  key={index}/>
+              </Link>
+            </li>
+          ))}
+          </ul>
       </div>
     );
   }
@@ -34,7 +57,7 @@ class MainContainer extends Component {
 export default connect(
   (state) => ({
     gyms: state.main.get("gyms"),
-    category: state.main.get("category")
+    search: state.main.get("search")
   }),
   (dispatch) => ({
     MainActions: bindActionCreators(mainActions, dispatch),

@@ -4,8 +4,18 @@ import { bindActionCreators } from "redux";
 import * as mainActions from "./../store/module/main";
 import GymList from "./../component/gym/GymList";
 import {Link} from 'react-router-dom';
+import './TabStyle.css';
 
 class MainContainer extends Component {
+
+  constructor(props) {
+    super();
+
+    this.state = {
+      menu: 0,
+    };
+  }
+
   initialize = () => {
     const { MainActions } = this.props;
     MainActions.getGymList();
@@ -27,7 +37,16 @@ class MainContainer extends Component {
     this.render();
   }
 
+  changeMenu = (menuIndex) =>{
+    this.setState({menu : menuIndex});
+  }
+
   render() {
+    const menuList = {
+      0: <TabList gyms={this.props.gyms}/>,
+      1: <div>asdf</div>,
+    };
+
     const { gyms, search } = this.props;
     return (
       <div>
@@ -36,7 +55,27 @@ class MainContainer extends Component {
         <button onClick={() => this.handleClick(search)}>
           검색
         </button>
-          <ul>
+        <div className="wrap">
+          <div className="menuBar">
+            <ul className="tabs">
+              <li className={`${this.state.menu === 0? 'active': ''}`} onClick={() => this.changeMenu(0)}>헬스장</li>
+              <li className={`${this.state.menu === 1? 'active': ''}`} onClick={() => this.changeMenu(1)}>트레이너</li>
+            </ul>
+          </div>
+          <div className="contentArea">
+            {menuList[this.state.menu]}
+          </div>
+        </div>
+          {/* <TabList gyms={gyms}/> */}
+      </div>
+    );
+  }
+}
+
+const TabList = ({gyms}) => {
+  return (
+    <div>
+      <ul>
           {gyms.map((gym,index) => (
             <li style={{
               border: '1px solid black',
@@ -49,10 +88,11 @@ class MainContainer extends Component {
             </li>
           ))}
           </ul>
-      </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+
 
 export default connect(
   (state) => ({

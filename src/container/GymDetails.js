@@ -1,8 +1,8 @@
-import React, { Component, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as mainActions from "../store/module/main";
-
+import Location from "../component/gym/Location";
 
 class GymDetails extends Component{
 
@@ -14,6 +14,13 @@ class GymDetails extends Component{
 
   componentDidMount() {
     this.initialize();
+
+    // const script = document.createElement("script");
+
+    // script.type = "text/javascript";
+    // script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=62fbec6871c90cd4898404d5570d3c1e";
+
+    // document.body.appendChild(script);
   }
 
   render(){
@@ -21,6 +28,7 @@ class GymDetails extends Component{
     const selectedGym = this.props.selectedGym.gym;
     const gym_list = gyms.filter((gym) => gym.gymId === selectedGym.gymId)
     const gym = gym_list.at(0)
+
     // const {gym} = useLocation().location.state.gym;
     return (
       <div>
@@ -45,6 +53,7 @@ class GymDetails extends Component{
           </li>))
         }
         </ul>
+        <Location Lat={gym.address.latitude} Lng={gym.address.longitude}/>
       </div>
     )
   }

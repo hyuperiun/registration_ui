@@ -55,6 +55,9 @@ class MainContainer extends Component {
         <button onClick={() => this.handleClick(search)}>
           검색
         </button>
+        <button onClick={() => this.initialize()}>
+          초기화
+        </button>
         <div className="wrap">
           <div className="menuBar">
             <ul className="tabs">

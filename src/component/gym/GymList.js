@@ -4,33 +4,48 @@ import styles from './GymList.scss';
 
 const cx = classNames.bind(styles);
 
-const GymItem = ({ id, gymName }) => {
+// const GymItem = ({ gymId, gymName }) => {
+//   return (
+//     <div>
+//       <div>id : {gymId}</div>
+//       <div>gymName : {gymName}</div>
+//     </div>
+//   );
+// };
+// const GymList = ({ gyms, onChangeInput, category }) => {
+//   let gymList = "";
+//   if (gyms.length > 0) {
+//     gymList = gyms.map((gym, index) => {
+//       const { gymId, gymName } = gym;
+//       return <GymItem key={index} gymId={gymId} gymName={gymName} />;
+//     });
+//   }
+//   // debugger;
+//   return (
+//     <div>
+//       <div>{gymList}</div>
+//       <div>
+//         <input type="text" name="category" onChange={onChangeInput}/>
+//       </div>
+//       <div className={cx('category-content')}>Category : {category}</div>
+//     </div>
+//   );
+// };
+const GymItem = ({ gymId, gymName}) => {
   return (
     <div>
-      <div>id : {id}</div>
+      <div>id : {gymId}</div>
       <div>gymName : {gymName}</div>
     </div>
   );
 };
-
-const GymList = ({ gyms, onChangeInput, category }) => {
-  let gymList = "";
-  if (gyms.length > 0) {
-    gymList = gyms.map((gym, index) => {
-      const { id, gymName } = gym;
-      return <GymItem key={index} id={id} gymName={gymName} />;
-    });
-  }
-  debugger;
+const GymList = ({ gym }) => {
+  const {gymId, gymName} = gym;
   return (
     <div>
-      <div>{gymList}</div>
-      <div>
-        <input type="text" name="category" onChange={onChangeInput}/>
-      </div>
-      <div className={cx('category-content')}>Category : {category}</div>
+      <span><GymItem gymId={gymId} gymName={gymName}/></span>
     </div>
-  );
+  )
 };
 
 export default GymList;
